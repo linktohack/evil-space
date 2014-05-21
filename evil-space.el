@@ -1,5 +1,6 @@
 (setq evil-space-next-key (kbd "SPC"))
-(setq evil-space-previous-key (kbd "DEL"))
+(setq evil-space-previous-key (kbd "S-SPC"))
+
 (setq evil-space-last-count 1)
 
 (evil-define-motion evil-space-next-line (count)
