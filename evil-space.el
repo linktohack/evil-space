@@ -23,6 +23,42 @@
     '(lambda () (interactive) (evil-next-line evil-space-last-count)))
   (evil-previous-line evil-space-last-count))
 
+(evil-define-motion evil-space-search-forward ()
+  (format "Setup evil-space and Search forward for user-entered text.
+Searches for regular expression if `evil-regexp-search' is t.%s"
+          (if (and (fboundp 'isearch-forward)
+                   (documentation 'isearch-forward))
+              (format "\n\nBelow is the documentation string \
+for `isearch-forward',\nwhich lists available keys:\n\n%s"
+                      (documentation 'isearch-forward)) ""))
+  :jump t
+  :type exclusive
+  :repeat evil-repeat-search
+  (setq evil-space-last-count 1)
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-search-next evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-search-previous evil-space-last-count)))
+  (evil-search-forward))
+
+(evil-define-motion evil-space-search-backward ()
+  (format "Setup evil-space and Search backward for user-entered text.
+Searches for regular expression if `evil-regexp-search' is t.%s"
+          (if (and (fboundp 'isearch-forward)
+                   (documentation 'isearch-forward))
+              (format "\n\nBelow is the documentation string \
+for `isearch-forward',\nwhich lists available keys:\n\n%s"
+                      (documentation 'isearch-forward)) ""))
+  :jump t
+  :type exclusive
+  :repeat evil-repeat-search
+  (setq evil-space-last-count 1)
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-search-previous evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-search-next evil-space-last-count)))
+  (evil-search-backward))
+
 (evil-define-motion evil-space-search-next (count)
   "Setup evil-space and Repeat the last search."
   :jump t
@@ -47,5 +83,7 @@
 
 (define-key evil-motion-state-map "j" 'evil-space-next-line)
 (define-key evil-motion-state-map "k" 'evil-space-previous-line)
+(define-key evil-motion-state-map "/" 'evil-space-search-forward)
+(define-key evil-motion-state-map "?" 'evil-space-search-backward)
 (define-key evil-motion-state-map "n" 'evil-space-search-next)
 (define-key evil-motion-state-map "N" 'evil-space-search-previous)
