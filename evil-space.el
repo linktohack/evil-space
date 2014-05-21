@@ -150,6 +150,30 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
   (define-key evil-motion-state-map evil-space-previous-key
     '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
   (evil-find-char-to-backward evil-space-last-count char))
+
+(evil-define-command evil-space-scroll-page-up (count)
+  "Scrolls the window COUNT pages upwards."
+  :repeat nil
+  :keep-visual t
+  (interactive "p")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-scroll-page-up evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-scroll-page-down evil-space-last-count)))
+  (evil-scroll-page-up evil-space-last-count))
+
+(evil-define-command evil-space-scroll-page-down (count)
+  "Setup evil-space and Scrolls the window COUNT pages upwards."
+  :repeat nil
+  :keep-visual t
+  (interactive "p")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-scroll-page-down evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-scroll-page-up evil-space-last-count)))
+  (evil-scroll-page-down evil-space-last-count))
 (define-key evil-motion-state-map "w" 'evil-space-forward-word-begin)
 (define-key evil-motion-state-map "b" 'evil-space-backward-word-begin)
 (define-key evil-motion-state-map "j" 'evil-space-next-line)
@@ -162,3 +186,5 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
 (define-key evil-motion-state-map "F" 'evil-space-find-char-backward)
 (define-key evil-motion-state-map "t" 'evil-space-find-char-to)
 (define-key evil-motion-state-map "T" 'evil-space-find-char-to-backward)
+(define-key evil-motion-state-map (kbd "C-b") 'evil-space-scroll-page-up)
+(define-key evil-motion-state-map (kbd "C-f") 'evil-space-scroll-page-down)
