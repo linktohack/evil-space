@@ -3,6 +3,28 @@
 
 (setq evil-space-last-count 1)
 
+(evil-define-motion evil-space-forward-word-begin (count &optional bigword)
+  "Setup evil-space and Move the cursor to the beginning of the COUNT-th next word.
+If BIGWORD is non-nil, move by WORDS."
+  :type exclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-forward-word-begin evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-backward-word-begin evil-space-last-count)))
+  (evil-forward-word-begin evil-space-last-count))
+
+(evil-define-motion evil-space-backward-word-begin (count &optional bigword)
+  "Setup evil-space and Move the cursor to the beginning of the COUNT-th previous word.
+If BIGWORD is non-nil, move by WORDS."
+  :type inclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-backward-word-begin evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-forward-word-begin evil-space-last-count)))
+  (evil-backward-word-begin evil-space-last-count))
+
 (evil-define-motion evil-space-next-line (count)
   "Setup evil-space and Move the cursor COUNT lines down."
   :type line
@@ -81,6 +103,8 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
     '(lambda () (interactive) (evil-search-next evil-space-last-count)))
   (evil-search-previous evil-space-last-count))
 
+(define-key evil-motion-state-map "w" 'evil-space-forward-word-begin)
+(define-key evil-motion-state-map "b" 'evil-space-backward-word-begin)
 (define-key evil-motion-state-map "j" 'evil-space-next-line)
 (define-key evil-motion-state-map "k" 'evil-space-previous-line)
 (define-key evil-motion-state-map "/" 'evil-space-search-forward)
