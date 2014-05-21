@@ -10,7 +10,7 @@
   (define-key evil-motion-state-map evil-space-next-key
     '(lambda () (interactive) (evil-next-line evil-space-last-count)))
   (define-key evil-motion-state-map evil-space-previous-key
-    '(lambda () (interactive) (evil-next-line evil-space-last-count)))
+    '(lambda () (interactive) (evil-previous-line evil-space-last-count)))
   (evil-next-line evil-space-last-count))
 
 (evil-define-motion evil-space-previous-line (count)
