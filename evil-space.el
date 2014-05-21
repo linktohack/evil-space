@@ -151,6 +151,50 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
     '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
   (evil-find-char-to-backward evil-space-last-count char))
 
+(evil-define-motion evil-space-forward-paragraph (count)
+  "Setup evil-space and Move to the end of the COUNT-th next paragraph."
+  :jump t
+  :type exclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-forward-paragraph evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-backward-paragraph evil-space-last-count)))
+  (evil-forward-paragraph evil-space-last-count))
+
+(evil-define-motion evil-space-backward-paragraph (count)
+  "Move to the beginning of the COUNT-th previous paragraph."
+  :jump t
+  :type exclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-backward-paragraph evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-forward-paragraph evil-space-last-count)))
+  (evil-backward-paragraph evil-space-last-count))
+
+(evil-define-motion evil-space-forward-section-begin (count)
+  "Move the cursor to the beginning of the COUNT-th next section."
+  :jump t
+  :type exclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-forward-section-begin evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-backward-section-begin evil-space-last-count)))
+  (evil-forward-section-begin evil-space-last-count))
+
+(evil-define-motion evil-space-backward-section-begin (count)
+  "Setup evil-space and Move the cursor to the beginning of the COUNT-th previous section."
+  :jump t
+  :type exclusive
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-backward-section-begin evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-forward-section-begin evil-space-last-count)))
+  (evil-backward-section-begin evil-space-last-count))
+
 (evil-define-command evil-space-scroll-page-up (count)
   "Scrolls the window COUNT pages upwards."
   :repeat nil
@@ -174,6 +218,7 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
   (define-key evil-motion-state-map evil-space-previous-key
     '(lambda () (interactive) (evil-scroll-page-up evil-space-last-count)))
   (evil-scroll-page-down evil-space-last-count))
+
 (define-key evil-motion-state-map "w" 'evil-space-forward-word-begin)
 (define-key evil-motion-state-map "b" 'evil-space-backward-word-begin)
 (define-key evil-motion-state-map "j" 'evil-space-next-line)
@@ -186,5 +231,9 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
 (define-key evil-motion-state-map "F" 'evil-space-find-char-backward)
 (define-key evil-motion-state-map "t" 'evil-space-find-char-to)
 (define-key evil-motion-state-map "T" 'evil-space-find-char-to-backward)
+(define-key evil-motion-state-map "}" 'evil-space-forward-paragraph)
+(define-key evil-motion-state-map "{" 'evil-space-backward-paragraph)
+(define-key evil-motion-state-map "]]" 'evil-space-forward-section-begin)
+(define-key evil-motion-state-map "[[" 'evil-space-backward-section-begin)
 (define-key evil-motion-state-map (kbd "C-b") 'evil-space-scroll-page-up)
 (define-key evil-motion-state-map (kbd "C-f") 'evil-space-scroll-page-down)
