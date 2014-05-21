@@ -103,6 +103,53 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
     '(lambda () (interactive) (evil-search-next evil-space-last-count)))
   (evil-search-previous evil-space-last-count))
 
+(evil-define-motion evil-space-find-char (count char)
+  "Setup evil-space and Move to the next COUNT'th occurrence of CHAR."
+  :jump t
+  :type exclusive
+  (interactive "<c><C>")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-repeat-find-char evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
+  (evil-find-char evil-space-last-count char))
+
+(evil-define-motion evil-space-find-char-backward (count char)
+  "Setup evil-space and Move before the next COUNT'th occurrence of CHAR."
+  :jump t
+  :type exclusive
+  (interactive "<c><C>")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-repeat-find-char evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
+  (evil-find-char-backward evil-space-last-count char))
+
+(evil-define-motion evil-space-find-char-to (count char)
+  "Setup evil-space and Move before the next COUNT'th occurrence of CHAR."
+  :jump t
+  :type inclusive
+  (interactive "<c><C>")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-repeat-find-char evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
+  (evil-find-char-to evil-space-last-count char))
+
+(evil-define-motion evil-space-find-char-to-backward (count char)
+  "Setup evil-space and Move before the next COUNT'th occurrence of CHAR."
+  :jump t
+  :type inclusive
+  (interactive "<c><C>")
+  (setq evil-space-last-count (or count 1))
+  (define-key evil-motion-state-map evil-space-next-key
+    '(lambda () (interactive) (evil-repeat-find-char evil-space-last-count)))
+  (define-key evil-motion-state-map evil-space-previous-key
+    '(lambda () (interactive) (evil-repeat-find-char-reverse evil-space-last-count)))
+  (evil-find-char-to-backward evil-space-last-count char))
 (define-key evil-motion-state-map "w" 'evil-space-forward-word-begin)
 (define-key evil-motion-state-map "b" 'evil-space-backward-word-begin)
 (define-key evil-motion-state-map "j" 'evil-space-next-line)
@@ -111,3 +158,7 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
 (define-key evil-motion-state-map "?" 'evil-space-search-backward)
 (define-key evil-motion-state-map "n" 'evil-space-search-next)
 (define-key evil-motion-state-map "N" 'evil-space-search-previous)
+(define-key evil-motion-state-map "f" 'evil-space-find-char)
+(define-key evil-motion-state-map "F" 'evil-space-find-char-backward)
+(define-key evil-motion-state-map "t" 'evil-space-find-char-to)
+(define-key evil-motion-state-map "T" 'evil-space-find-char-to-backward)
