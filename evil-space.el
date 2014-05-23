@@ -1,3 +1,5 @@
+(require 'evil)
+
 (setq evil-space-next-key (kbd "SPC"))
 (setq evil-space-previous-key (kbd "S-SPC"))
 
@@ -237,3 +239,5 @@ for `isearch-forward',\nwhich lists available keys:\n\n%s"
 (define-key evil-motion-state-map "[[" 'evil-space-backward-section-begin)
 (define-key evil-motion-state-map (kbd "C-b") 'evil-space-scroll-page-up)
 (define-key evil-motion-state-map (kbd "C-f") 'evil-space-scroll-page-down)
+
+(provide 'evil-space)
