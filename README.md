@@ -1,7 +1,9 @@
 evil-space
 ==========
-`evil-space` is intend to be a fork of `vim-space` for `evil-mode` with some
-enhancement features such as remember count motions, e.g.
+vim-space for evil-mode
+
+`evil-space` is intend to be a ported version of `vim-space` for `evil-mode`
+with some enhancement features such as remember count motions, e.g.
     9j SPC SPC SPC
 
 `evil-space` is usable by source the file directly but not a complete minor
