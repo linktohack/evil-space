@@ -6,7 +6,8 @@
 ;; URL: http://github.com/linktohack/evil-space
 ;; Version: 0.0.2
 ;; Keywords: space repeat motion
-;;
+;; Package-Requires: ((evil "1.0.0"))
+
 ;; This file is not part of GNU Emacs.
 
 ;;; License:
