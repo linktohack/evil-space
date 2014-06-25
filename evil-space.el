@@ -1,4 +1,4 @@
-;;; evil-space --- Repeat motion in Evil. Correct the behaviour of what SPC should do.
+;;; evil-space.el --- Repeat motion in Evil. Correct the behaviour of what SPC should do.
 
 ;; Copyright (C) 2014 Quang Linh LE
 
