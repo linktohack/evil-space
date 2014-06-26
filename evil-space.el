@@ -67,8 +67,8 @@
      (defadvice ,(lookup-key evil-motion-state-map key)
        (before ,(intern (concat (symbol-name (lookup-key evil-motion-state-map key)) "-space")) activate)
        ,(concat "Setup evil-space for motion " key)
-       (define-key evil-normal-state-map ,evil-space-next-key ',(intern (concat "evil-space-" next)))
-       (define-key evil-normal-state-map ,evil-space-prev-key ',(intern (concat "evil-space-" prev))))))
+       (define-key evil-motion-state-map ,evil-space-next-key ',(intern (concat "evil-space-" next)))
+       (define-key evil-motion-state-map ,evil-space-prev-key ',(intern (concat "evil-space-" prev))))))
 
 ;;;###autoload
 (defun evil-space-default-setup ()
