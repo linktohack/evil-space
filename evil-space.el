@@ -72,12 +72,24 @@
 
 ;;;###autoload
 (defun evil-space-default-setup ()
+  (evil-space-setup "gj" "gj" "gk")
+  (evil-space-setup "gk" "gk" "gj")
+  (evil-space-setup "-" "-" "+")
+  (evil-space-setup "+" "+" "-")
+
+  ;; search motions
   (evil-space-setup "n" "n" "N")
   (evil-space-setup "N" "N" "n")
   (evil-space-setup "t" ";" ",")
   (evil-space-setup "f" ";" ",")
   (evil-space-setup "T" "," ";")
   (evil-space-setup "F" "," ";")
+  (evil-space-setup "*" "*" "#")
+  (evil-space-setup "#" "#" "*")
+
+  ;; block motions
+  (evil-space-setup "(" "(" ")")
+  (evil-space-setup ")" ")" "(")
   (evil-space-setup "{" "{" "}")
   (evil-space-setup "}" "}" "{")
   (evil-space-setup "]]" "]]" "[[")
