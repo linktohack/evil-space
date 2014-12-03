@@ -3,9 +3,13 @@
 [vim-space](https://github.com/linktohack/vim-space) for `evil-mode`
 
 `evil-space` is intend to be a ported version of `vim-space` for `evil-mode`
-with some enhanced features such as remember count motions, e.g.
+with some enhanced features such as remember count motions.
 
-    9j SPC SPC SPC
+The most obvious outcome is to liberate the `semicolon` <kbd>;</kbd> and
+`comma` <kbd>,</kbd> to map them to `evil-ex` and `evil-leader` but still keep
+`evil-find-char-next` and `-previous` working.
+
+    <kbd>f)<SPC><SPC></kbd>
 
 ## Install
 
@@ -43,6 +47,12 @@ enable repeat for these motions:
 tTfF (next character in line)
 }{ (paragraph)
 ]] and [[ (function)
+)( (sentence)
+
+and
+
+-, + gj, gk for some one still keep the default behavior of next line.
+
 ```
 
 If you don't like the default behavior for `evil-space` you can
@@ -57,9 +67,9 @@ enable the key motion you want manually:
 (evil-space-setup "F" "," ";")
 ```
 
-## Key triggers
+## Trigger keys
 
-The default key triggers are `<SPC>` and `<S-SPC>` but you can
+The default trigger keys are `<SPC>` and `<S-SPC>` but you can
 customize them to your like by:
 
 ```lisp
