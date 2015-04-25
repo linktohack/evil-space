@@ -17,13 +17,13 @@ The easiest way to install `evil-space` is by `package.el` through melpa
 [melpa](http://melpa.milkbox.net/#/getting-started) then try it with
 
 ```lisp
-M-x evil-space-default-setup
+M-x evil-space-mode
 ```
 
 To enable `evil-space` permanently, add
 
 ```lisp
-(evil-space-default-setup)
+(evil-space-mode)
 ```
 
 to your `init.el`.
@@ -34,13 +34,13 @@ lines to the `init.el`.
 ```lisp
 (add-to-list 'load-path "/path/to/evil-space")
 (require 'evil-space)
-(evil-space-default-setup)
+(evil-space-mode)
 ```
 
 ## Default setups
 
-The default setups `(evil-space-default-setup)` will
-enable repeat for these motions:
+The default setups `(evil-space-mode)` will enable repeat for these
+motions:
 
 ```
 /?nN (search)
