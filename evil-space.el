@@ -58,20 +58,24 @@
 
 `SPC` and `S-SPC` are map to next and prev"
   `(progn
-     (when (not (fboundp ',(intern (concat "evil-space-" next))))
+     (unless (fboundp ',(intern (concat "evil-space-" next)))
        (fset ',(intern (concat "evil-space-" next))
          (symbol-function ',(lookup-key evil-motion-state-map next))))
-     (when (not (fboundp ',(intern (concat "evil-space-" next))))
+     (unless (fboundp ',(intern (concat "evil-space-" prev)))
        (fset ',(intern (concat "evil-space-" prev))
          (symbol-function ',(lookup-key evil-motion-state-map prev))))
      (defadvice ,(lookup-key evil-motion-state-map key)
        (before ,(intern (concat (symbol-name (lookup-key evil-motion-state-map key)) "-space")) activate)
        ,(concat "Setup evil-space for motion " key)
-       (define-key evil-motion-state-map ,evil-space-next-key ',(intern (concat "evil-space-" next)))
-       (define-key evil-motion-state-map ,evil-space-prev-key ',(intern (concat "evil-space-" prev))))))
+       (evil-define-key 'motion evil-space-mode-map ,evil-space-next-key ',(intern (concat "evil-space-" next)))
+       (evil-define-key 'motion evil-space-mode-map ,evil-space-prev-key ',(intern (concat "evil-space-" prev))))))
 
 ;;;###autoload
-(defun evil-space-default-setup ()
+(define-minor-mode evil-space-mode
+  "Evil space mode."
+  :lighter " SPC"
+  :global t
+  :keymap (make-sparse-keymap)
   (evil-space-setup "gj" "gj" "gk")
   (evil-space-setup "gk" "gk" "gj")
   (evil-space-setup "-" "-" "+")
@@ -95,4 +99,11 @@
   (evil-space-setup "]]" "]]" "[[")
   (evil-space-setup "[[" "[[" "]]"))
 
+;;;###autoload
+(define-obsolete-function-alias 'evil-space-default-setup
+  'evil-space-mode "0.0.4")
+
+
 (provide 'evil-space)
+
+;;; evil-space.el ends here
