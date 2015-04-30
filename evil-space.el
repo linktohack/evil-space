@@ -45,6 +45,11 @@
 
 (require 'evil)
 
+(defgroup evil-space nil
+  "Repeat motion in Evil"
+  :group 'evil
+  :prefix "evil-space-")
+
 (defcustom evil-space-next-key (kbd "SPC")
   "Key that triggers the repeat motion."
   :group 'evil-space)
