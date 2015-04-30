@@ -50,12 +50,13 @@
   :group 'evil
   :prefix "evil-space-")
 
-(defcustom evil-space-next-key (kbd "SPC")
-  "Key that triggers the repeat motion."
-  :group 'evil-space)
-(defcustom evil-space-prev-key (kbd "S-SPC")
-  "Key that triggers the repeat motion in reverse direction."
-  :group 'evil-space)
+(eval-and-compile
+  (defcustom evil-space-next-key (kbd "SPC")
+    "Key that triggers the repeat motion."
+    :group 'evil-space)
+  (defcustom evil-space-prev-key (kbd "S-SPC")
+    "Key that triggers the repeat motion in reverse direction."
+    :group 'evil-space))
 
 ;;;###autoload
 (defmacro evil-space-setup (key next prev)
