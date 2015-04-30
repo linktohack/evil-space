@@ -9,7 +9,7 @@ The most obvious outcome is to liberate the `semicolon` <kbd>;</kbd> and
 `comma` <kbd>,</kbd> to map them to `evil-ex` and `evil-leader` but still keep
 `evil-find-char-next` and `-previous` working.
 
-    <kbd>f)<SPC><SPC></kbd>
+> <kbd>f</kbd><kbd>a</kbd><kbd>SPC</kbd><kbd>SPC</kbd><kbd>S-SPC</kbd>
 
 ## Install
 
@@ -37,10 +37,10 @@ lines to the `init.el`.
 (evil-space-mode)
 ```
 
-## Default setups
+## Default bindings
 
-The default setups `(evil-space-mode)` will enable repeat for these
-motions:
+The default binding provided by `(evil-space-mode)` will enable repeat
+for these motions:
 
 ```
 /?nN (search)
@@ -78,5 +78,5 @@ M-x customize-group RET evil-space RET
 
 ## Further information
 
-Pull requests are very welcome, for further information, make an issue
-or contact me at linktohack@gmail.com.
+Pull requests are very welcome, for further information, please make an
+issue
