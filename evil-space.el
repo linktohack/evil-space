@@ -1,6 +1,6 @@
 ;;; evil-space.el --- Repeat motion in Evil. Correct the behaviour of what SPC should do.
 
-;; Copyright (C) 2014 Quang Linh LE
+;; Copyright (C) 2015 Quang Linh LE
 
 ;; Author: Quang Linh LE <linktohack@gmail.com>
 ;; URL: http://github.com/linktohack/evil-space
