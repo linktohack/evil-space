@@ -60,9 +60,22 @@
 
 ;;;###autoload
 (defmacro evil-space-setup (key next prev &optional keymap)
-  "Setup `evil-space` for motion `key`
+  "Makes KEY repeatable with `evil-space-next-key' and `evil-space-prev-key'.
 
-`SPC` and `S-SPC` are map to next and prev"
+NEXT and PREV represent the key bindings that repeat KEY forward and backwards,
+respectively.
+
+KEYMAP, if non-nil, specifies where to lookup KEY, NEXT and PREV. If nil, it
+defaults to `evil-motion-state-map'.
+
+Examples:
+    (evil-space-setup \"f\" \";\" \",\")
+
+    ;; Probably not a great idea.
+    (evil-space-setup \"s-/\" \"s-/\" \"s-/\" evil-commentary-mode-map)
+
+    ;; Map * in evil-visualstar-mode-map, in visual state
+    (evil-space-setup \"*\" \"n\" \"N\" (evil-get-auxiliary-keymap evil-visualstar-mode-map 'visual)) "
   (let* ((keymap (or (if keymap (eval keymap)) evil-motion-state-map))
          (func-next (intern (concat "evil-space-" next)))
          (func-prev (intern (concat "evil-space-" prev)))
