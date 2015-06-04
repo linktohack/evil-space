@@ -59,22 +59,39 @@
     :group 'evil-space))
 
 ;;;###autoload
-(defmacro evil-space-setup (key next prev)
-  "Setup `evil-space` for motion `key`
+(defmacro evil-space-setup (key next prev &optional keymap)
+  "Makes KEY repeatable with `evil-space-next-key' and `evil-space-prev-key'.
 
-`SPC` and `S-SPC` are map to next and prev"
-  `(progn
-     (unless (fboundp ',(intern (concat "evil-space-" next)))
-       (fset ',(intern (concat "evil-space-" next))
-         (symbol-function ',(lookup-key evil-motion-state-map next))))
-     (unless (fboundp ',(intern (concat "evil-space-" prev)))
-       (fset ',(intern (concat "evil-space-" prev))
-         (symbol-function ',(lookup-key evil-motion-state-map prev))))
-     (defadvice ,(lookup-key evil-motion-state-map key)
-       (before ,(intern (concat (symbol-name (lookup-key evil-motion-state-map key)) "-space")) activate)
-       ,(concat "Setup evil-space for motion " key)
-       (evil-define-key 'motion evil-space-mode-map ,evil-space-next-key ',(intern (concat "evil-space-" next)))
-       (evil-define-key 'motion evil-space-mode-map ,evil-space-prev-key ',(intern (concat "evil-space-" prev))))))
+NEXT and PREV represent the key bindings that repeat KEY forward and backwards,
+respectively.
+
+KEYMAP, if non-nil, specifies where to lookup KEY, NEXT and PREV. If nil, it
+defaults to `evil-motion-state-map'.
+
+Examples:
+    (evil-space-setup \"f\" \";\" \",\")
+
+    ;; Probably not a great idea.
+    (evil-space-setup \"s-/\" \"s-/\" \"s-/\" evil-commentary-mode-map)
+
+    ;; Map * in evil-visualstar-mode-map, in visual state
+    (evil-space-setup \"*\" \"n\" \"N\" (evil-get-auxiliary-keymap evil-visualstar-mode-map 'visual)) "
+  (let* ((keymap (or (if keymap (eval keymap)) evil-motion-state-map))
+         (func-next (intern (concat "evil-space-" next)))
+         (func-prev (intern (concat "evil-space-" prev)))
+         (key-to-replace (lookup-key keymap key)))
+    `(progn
+       (unless (fboundp ',func-next)
+         (fset ',func-next
+           (symbol-function ',(lookup-key keymap (kbd next)))))
+       (unless (fboundp ',func-prev)
+         (fset ',func-prev
+           (symbol-function ',(lookup-key keymap (kbd prev)))))
+       (defadvice ,key-to-replace
+         (before ,(intern (concat (symbol-name key-to-replace) "-space")) activate)
+         ,(concat "Setup evil-space for motion " key)
+         (evil-define-key 'motion evil-space-mode-map ,evil-space-next-key ',func-next)
+         (evil-define-key 'motion evil-space-mode-map ,evil-space-prev-key ',func-prev)))))
 
 ;;;###autoload
 (define-minor-mode evil-space-mode
