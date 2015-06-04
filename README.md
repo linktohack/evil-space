@@ -67,6 +67,10 @@ enable the key motion you want manually:
 (evil-space-setup "F" "," ";")
 ```
 
+An additional `keymap` can be passed at the end of `evil-space-setup` allows
+one to to setup key for a specific mode. <kbd>C-h f evil-space-setup RET</kbd>
+for more details.
+
 ## Trigger keys
 
 The default trigger keys are `<SPC>` and `<S-SPC>` but you can
@@ -76,7 +80,10 @@ customize them to your like by:
 M-x customize-group RET evil-space RET
 ```
 
-## Further information
+## Contributors
+
+- [@PythonNut](https://github.com/PythonNut) for more motions.
+- [@hlissner](https://github.com/hlissner) for addtional keymap.
 
 Pull requests are very welcome, for further information, please make an
 issue
