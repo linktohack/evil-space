@@ -84,7 +84,7 @@ Examples:
          (key-func-next  (or (lookup-key keymap (kbd next))
                              (lookup-key evil-motion-state-map (kbd next))
                              (error "Could not find next key: %s" next)))
-         (key-func-prev  (or (lookup-key keymap (kbd next))
+         (key-func-prev  (or (lookup-key keymap (kbd prev))
                              (lookup-key evil-motion-state-map (kbd prev))
                              (error "Could not find previous key: %s" prev))))
     `(progn
