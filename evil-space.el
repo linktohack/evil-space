@@ -77,19 +77,22 @@ Examples:
     ;; Map * in evil-visualstar-mode-map, in visual state
     (evil-space-setup \"*\" \"n\" \"N\" (evil-get-auxiliary-keymap evil-visualstar-mode-map 'visual)) "
   (let* ((keymap (or (if keymap (eval keymap)) evil-motion-state-map))
-         (func-next (intern (concat "evil-space-" next)))
-         (func-prev (intern (concat "evil-space-" prev)))
-         (key-to-replace (lookup-key keymap key)))
+         (func-next (intern (concat "evil-space--" next)))
+         (func-prev (intern (concat "evil-space--" prev)))
+         (key-to-replace (or (lookup-key keymap key)
+                             (error "Could not find %s" key)))
+         (key-func-next  (or (lookup-key keymap (kbd next))
+                             (lookup-key evil-motion-state-map (kbd next))
+                             (error "Could not find next key: %s" next)))
+         (key-func-prev  (or (lookup-key keymap (kbd next))
+                             (lookup-key evil-motion-state-map (kbd prev))
+                             (error "Could not find previous key: %s" prev))))
     `(progn
-       (unless (fboundp ',func-next)
-         (fset ',func-next
-           (symbol-function ',(lookup-key keymap (kbd next)))))
-       (unless (fboundp ',func-prev)
-         (fset ',func-prev
-           (symbol-function ',(lookup-key keymap (kbd prev)))))
+       (fset ',func-next (symbol-function ',key-func-next))
+       (fset ',func-prev (symbol-function ',key-func-prev))
        (defadvice ,key-to-replace
          (before ,(intern (concat (symbol-name key-to-replace) "-space")) activate)
-         ,(concat "Setup evil-space for motion " key)
+         ,(format "Setup evil-space for motion %s. Its delegates are `%s' and `%s'" key func-next func-prev)
          (evil-define-key 'motion evil-space-mode-map ,evil-space-next-key ',func-next)
          (evil-define-key 'motion evil-space-mode-map ,evil-space-prev-key ',func-prev)))))
 
