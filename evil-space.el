@@ -51,6 +51,10 @@
   :prefix "evil-space-")
 
 (eval-and-compile
+  (defcustom evil-space-auto-setup t
+    "Whether or not to setup the initial motions. If you are having conflicts
+  with your own mappings, then best to set this to nil and do your own."
+    :group 'evil-space)
   (defcustom evil-space-next-key (kbd "SPC")
     "Key that triggers the repeat motion."
     :group 'evil-space)
@@ -99,28 +103,29 @@ Examples:
   :lighter " SPC"
   :global t
   :keymap (make-sparse-keymap)
-  (evil-space-setup "gj" "gj" "gk")
-  (evil-space-setup "gk" "gk" "gj")
-  (evil-space-setup "-" "-" "+")
-  (evil-space-setup "+" "+" "-")
+  (when evil-space-auto-setup
+    (evil-space-setup "gj" "gj" "gk")
+    (evil-space-setup "gk" "gk" "gj")
+    (evil-space-setup "-" "-" "+")
+    (evil-space-setup "+" "+" "-")
 
-  ;; search motions
-  (evil-space-setup "n" "n" "N")
-  (evil-space-setup "N" "N" "n")
-  (evil-space-setup "t" ";" ",")
-  (evil-space-setup "f" ";" ",")
-  (evil-space-setup "T" "," ";")
-  (evil-space-setup "F" "," ";")
-  (evil-space-setup "*" "*" "#")
-  (evil-space-setup "#" "#" "*")
+    ;; search motions
+    (evil-space-setup "n" "n" "N")
+    (evil-space-setup "N" "N" "n")
+    (evil-space-setup "t" ";" ",")
+    (evil-space-setup "f" ";" ",")
+    (evil-space-setup "T" "," ";")
+    (evil-space-setup "F" "," ";")
+    (evil-space-setup "*" "*" "#")
+    (evil-space-setup "#" "#" "*")
 
-  ;; block motions
-  (evil-space-setup "(" "(" ")")
-  (evil-space-setup ")" ")" "(")
-  (evil-space-setup "{" "{" "}")
-  (evil-space-setup "}" "}" "{")
-  (evil-space-setup "]]" "]]" "[[")
-  (evil-space-setup "[[" "[[" "]]"))
+    ;; block motions
+    (evil-space-setup "(" "(" ")")
+    (evil-space-setup ")" ")" "(")
+    (evil-space-setup "{" "{" "}")
+    (evil-space-setup "}" "}" "{")
+    (evil-space-setup "]]" "]]" "[[")
+    (evil-space-setup "[[" "[[" "]]")))
 
 ;;;###autoload
 (define-obsolete-function-alias 'evil-space-default-setup
