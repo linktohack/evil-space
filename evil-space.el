@@ -60,16 +60,13 @@
 
 (defun evil-space-lookup-key (key &optional keymap)
   "Normalize KEY into a function."
-  (or (if (functionp key) key)
-      (if (symbolp key) (symbol-value key))
-      (if (listp key)
-          (or (ignore-errors (evil-space-lookup-key (eval key)))
-              (error "evil-space: Invalid forms")))
-      (if (stringp key)
-          (if keymap
-              (lookup-key (symbol-value keymap) (kbd key))
-            (lookup-key evil-motion-state-map (kbd key))))
-      (error "evil-space: Could not find key %s" key)))
+  (cond ((eq (car-safe key) 'quote) (cadr key))
+        ((symbolp key) (symbol-value key))
+        ((stringp key)
+         (if keymap
+             (lookup-key (symbol-value keymap) (kbd key))
+           (lookup-key evil-motion-state-map (kbd key))))
+        (t (user-error "Not a valid key: %s" key))))
 
 ;;;###autoload
 (defmacro evil-space-setup (key next prev &optional keymap)
