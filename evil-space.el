@@ -62,12 +62,25 @@
     "Key that triggers the repeat motion in reverse direction."
     :group 'evil-space))
 
+(defun evil-space-lookup-key (key &optional keymap)
+  "Normalize KEY into a function."
+  (cond ((eq (car-safe key) 'quote) (cadr key))
+        ((symbolp key) (symbol-value key))
+        ((stringp key)
+         (if keymap
+             (lookup-key (symbol-value keymap) (kbd key))
+           (lookup-key evil-motion-state-map (kbd key))))
+        (t (user-error "Not a valid key: %s" key))))
+
 ;;;###autoload
 (defmacro evil-space-setup (key next prev &optional keymap)
   "Makes KEY repeatable with `evil-space-next-key' and `evil-space-prev-key'.
 
 NEXT and PREV represent the key bindings that repeat KEY forward and backwards,
 respectively.
+
+KEY, NEXT and PREV can be a key, function symbol, or forms that evaluate to a
+function.
 
 KEYMAP, if non-nil, specifies where to lookup KEY, NEXT and PREV. If nil, it
 defaults to `evil-motion-state-map'.
@@ -79,21 +92,21 @@ Examples:
     (evil-space-setup \"s-/\" \"s-/\" \"s-/\" evil-commentary-mode-map)
 
     ;; Map * in evil-visualstar-mode-map, in visual state
-    (evil-space-setup \"*\" \"n\" \"N\" (evil-get-auxiliary-keymap evil-visualstar-mode-map 'visual)) "
-  (let* ((keymap (or (if keymap (eval keymap)) evil-motion-state-map))
-         (func-next (intern (concat "evil-space-" next)))
-         (func-prev (intern (concat "evil-space-" prev)))
-         (key-to-replace (lookup-key keymap key)))
+    (evil-space-setup \"*\" \"n\" \"N\" (evil-get-auxiliary-keymap evil-visualstar-mode-map 'visual))
+
+    ;; Map functions directly, rather than keys
+    (evil-space-setup evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)"
+  (let* ((key-func-next  (evil-space-lookup-key next keymap))
+         (key-func-prev  (evil-space-lookup-key prev keymap))
+         (key-to-replace (evil-space-lookup-key key  keymap))
+         (func-next (intern (format "evil-space--%s" key-func-next)))
+         (func-prev (intern (format "evil-space--%s" key-func-prev))))
     `(progn
-       (unless (fboundp ',func-next)
-         (fset ',func-next
-           (symbol-function ',(lookup-key keymap (kbd next)))))
-       (unless (fboundp ',func-prev)
-         (fset ',func-prev
-           (symbol-function ',(lookup-key keymap (kbd prev)))))
+       (fset ',func-next (symbol-function ',key-func-next))
+       (fset ',func-prev (symbol-function ',key-func-prev))
        (defadvice ,key-to-replace
-         (before ,(intern (concat (symbol-name key-to-replace) "-space")) activate)
-         ,(concat "Setup evil-space for motion " key)
+           (before ,(intern (format "%s--space" (symbol-name key-to-replace))) activate)
+         ,(format "Setup evil-space for motion %s. Its delegates are `%s' and `%s'" key func-next func-prev)
          (evil-define-key 'motion evil-space-mode-map ,evil-space-next-key ',func-next)
          (evil-define-key 'motion evil-space-mode-map ,evil-space-prev-key ',func-prev)))))
 
