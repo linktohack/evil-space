@@ -55,21 +55,28 @@ and
 
 ```
 
-If you don't like the default behavior for `evil-space` you can
-enable the key motion you want manually:
+If you don't like the default behavior for `evil-space` you can enable
+the key motion you want manually. Just remember to set
+`evil-space-auto-setup` to `nil` (or using `customize-variable`):
 
 ```lisp
 (add-to-list 'load-path "/path/to/evil-space")
 (require 'evil-space)
+(setq evil-space-auto-setup nil)
+(evil-space-mode)
 (evil-space-setup "t" ";" ",")
 (evil-space-setup "f" ";" ",")
 (evil-space-setup "T" "," ";")
 (evil-space-setup "F" "," ";")
 ```
 
-An additional `keymap` can be passed at the end of `evil-space-setup` allows
-one to to setup key for a specific mode. <kbd>C-h f evil-space-setup RET</kbd>
-for more details.
+From version `v0.0.6`, `evil-space-setup` accepts any form that can
+evaluate to a command, including a key, a symbol or an arbitrary form.
+
+An additional `keymap` can be passed at the end of `evil-space-setup`
+allows one to to setup key for a specific mode.
+
+<kbd>C-h f evil-space-setup RET</kbd> for more details.
 
 ## Trigger keys
 
